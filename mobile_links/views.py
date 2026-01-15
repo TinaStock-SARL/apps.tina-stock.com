@@ -8,7 +8,7 @@ def assetlinks(request):
                 "relation": ["delegate_permission/common.handle_all_urls"],
                 "target": {
                     "namespace": "android_app",
-                    "package_name": "com.jangogroup.gogames",
+                    "package_name": "com.tinastock.tinastock",
                     "sha256_cert_fingerprints": [
                         settings.SHA_256  # À remplacer
                     ]
