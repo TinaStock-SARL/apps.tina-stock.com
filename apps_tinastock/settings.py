@@ -26,7 +26,7 @@ config = Config(RepositoryEnv(env_path))
 SECRET_KEY = 'django-insecure-lak8x+uwv=rt#32!f4j+-yg*eyj8=ew_l*&(65n85h#3=r0_cv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
