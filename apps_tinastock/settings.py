@@ -137,3 +137,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+# configuration de media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
