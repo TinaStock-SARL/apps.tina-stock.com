@@ -21,9 +21,28 @@
         .animate-bounce-custom {
             animation: bounce 2s infinite;
         }
+        @keyframes arrow-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .arrow-float {
+            animation: arrow-float 1.2s ease-in-out infinite;
+        }
+        .arrow-hint {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .arrow-hint.visible {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gray-100 relative">
+    <!-- Flèche "Cliquer ici" en haut à droite (apparaît après 2s) -->
+    <div id="arrow-hint" class="arrow-hint fixed top-4 right-4 z-50 flex flex-col items-center gap-1 text-gray-600 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg px-4 py-3 border border-gray-200">
+        <span class="text-xs font-semibold whitespace-nowrap">Cliquer ici !</span>
+        <i class="fas fa-arrow-down arrow-float text-xl text-gray-500"></i>
+    </div>
     <div class="text-center p-5 max-w-2xl w-full">
         <div class="flex flex-col gap-5 mt-8">
             <!-- Bloc Android -->
@@ -63,5 +82,15 @@
             </a>
         </div>
     </div>
+    <script>
+        (function() {
+            var hint = document.getElementById('arrow-hint');
+            if (hint) {
+                setTimeout(function() {
+                    hint.classList.add('visible');
+                }, 2000);
+            }
+        })();
+    </script>
 </body>
 </html>
