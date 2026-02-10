@@ -8,17 +8,17 @@
     <!-- Open Graph / WhatsApp Meta Tags -->
     {% if product %}
         <!-- Open Graph / WhatsApp -->
-        <meta property="og:title" content="{{ product.name }} | Tina Stock">
+        <meta property="og:title" content="{{ product.name }} | TinaStock">
         <meta property="og:description" content="{{ product.description|truncatechars:180 }}">
         <meta property="og:image" content="{{ product.image }}">
         <meta property="og:url" content="{{ request.build_absolute_uri }}">
         <meta property="og:type" content="product">
-        <meta property="og:site_name" content="Tina Stock">
+        <meta property="og:site_name" content="TinaStock">
 
         <!-- Bonus pour grosse image -->
         <meta name="twitter:card" content="summary_large_image">
     {% else %}
-        <meta property="og:title" content="Tina Stock">
+        <meta property="og:title" content="TinaStock">
         <meta property="og:description" content="Plateforme de gestion et vente de produits">
     {% endif %}
     <!-- Tailwind CSS -->
