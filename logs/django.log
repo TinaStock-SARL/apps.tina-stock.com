@@ -3,3 +3,45 @@ INFO 2026-02-10 20:55:00,506 autoreload 37556 46828 D:\me\PROJETS\PROJETS_DJANGO
 INFO 2026-02-10 20:55:02,982 autoreload 47668 24044 Watching for file changes with StatReloader
 INFO 2026-02-10 20:55:09,798 autoreload 47668 24044 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
 INFO 2026-02-10 20:55:13,661 autoreload 22308 29984 Watching for file changes with StatReloader
+INFO 2026-02-10 21:10:18,719 autoreload 22308 29984 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:10:22,318 autoreload 45576 3304 Watching for file changes with StatReloader
+INFO 2026-02-10 21:10:48,668 middleware 45576 24252 Erreur 404 interceptée pour: /product_detail
+DEBUG 2026-02-10 21:10:48,671 middleware 45576 24252 Paramètre productId reçu: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+INFO 2026-02-10 21:10:48,672 middleware 45576 24252 Tentative de récupération du produit avec productId: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+INFO 2026-02-10 21:10:48,672 middleware 45576 24252 Récupération du produit avec l'ID: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+DEBUG 2026-02-10 21:10:48,673 middleware 45576 24252 URL de l'API: https://api.tina-stock.com/v1/products/e3859f64-9219-4dd5-8ec9-905dc0cc0b2c/detail/
+DEBUG 2026-02-10 21:10:50,196 middleware 45576 24252 Statut de la réponse API: 200
+INFO 2026-02-10 21:10:50,201 middleware 45576 24252 Produit récupéré avec succès: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+INFO 2026-02-10 21:10:50,207 middleware 45576 24252 Produit récupéré avec succès depuis l'API: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+DEBUG 2026-02-10 21:10:50,208 middleware 45576 24252 Produit formaté: Clé USB SanDisk 32gb
+DEBUG 2026-02-10 21:10:50,209 middleware 45576 24252 Produit Image: https://media.tina-stock.com/tinastock_media_access/products-files/4.png
+DEBUG 2026-02-10 21:10:50,211 middleware 45576 24252 Rendu de la page 404.html avec produit: présent
+INFO 2026-02-10 21:10:50,236 basehttp 45576 24252 "GET /product_detail?productId=e3859f64-9219-4dd5-8ec9-905dc0cc0b2c HTTP/1.1" 200 5393
+INFO 2026-02-10 21:12:08,625 autoreload 45576 3304 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:12:12,454 autoreload 39404 25964 Watching for file changes with StatReloader
+INFO 2026-02-10 21:12:15,795 autoreload 39404 25964 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:12:22,943 autoreload 42852 29944 Watching for file changes with StatReloader
+INFO 2026-02-10 21:12:25,702 autoreload 42852 29944 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:12:27,819 autoreload 46508 52696 Watching for file changes with StatReloader
+INFO 2026-02-10 21:12:40,969 autoreload 46508 52696 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:12:42,194 autoreload 32848 38616 Watching for file changes with StatReloader
+INFO 2026-02-10 21:12:45,303 autoreload 32848 38616 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:12:46,566 autoreload 13372 27544 Watching for file changes with StatReloader
+INFO 2026-02-10 21:12:49,016 autoreload 13372 27544 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:12:49,842 autoreload 18408 54088 Watching for file changes with StatReloader
+INFO 2026-02-10 21:12:52,104 autoreload 18408 54088 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:12:53,319 autoreload 24140 53096 Watching for file changes with StatReloader
+INFO 2026-02-10 21:13:05,530 middleware 24140 14868 Erreur 404 interceptée pour: /product_detail
+DEBUG 2026-02-10 21:13:05,531 middleware 24140 14868 Paramètre productId reçu: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+INFO 2026-02-10 21:13:05,532 middleware 24140 14868 Tentative de récupération du produit avec productId: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+INFO 2026-02-10 21:13:05,532 middleware 24140 14868 Récupération du produit avec l'ID: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+DEBUG 2026-02-10 21:13:05,532 middleware 24140 14868 URL de l'API: https://api.tina-stock.com/v1/products/e3859f64-9219-4dd5-8ec9-905dc0cc0b2c/detail/
+DEBUG 2026-02-10 21:13:06,232 middleware 24140 14868 Statut de la réponse API: 200
+INFO 2026-02-10 21:13:06,233 middleware 24140 14868 Produit récupéré avec succès: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+INFO 2026-02-10 21:13:06,242 middleware 24140 14868 Produit récupéré avec succès depuis l'API: e3859f64-9219-4dd5-8ec9-905dc0cc0b2c
+DEBUG 2026-02-10 21:13:06,245 middleware 24140 14868 Produit formaté: Clé USB SanDisk 32gb
+DEBUG 2026-02-10 21:13:06,246 middleware 24140 14868 Produit Image: https://media.tina-stock.com/tinastock_media_access/products-files/4.png
+DEBUG 2026-02-10 21:13:06,250 middleware 24140 14868 Rendu de la page 404.html avec produit: présent
+INFO 2026-02-10 21:13:06,270 basehttp 24140 14868 "GET /product_detail?productId=e3859f64-9219-4dd5-8ec9-905dc0cc0b2c HTTP/1.1" 200 5399
+INFO 2026-02-10 21:13:28,580 autoreload 24140 53096 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 21:13:34,614 autoreload 19412 54364 Watching for file changes with StatReloader

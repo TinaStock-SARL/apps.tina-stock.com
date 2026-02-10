@@ -76,6 +76,7 @@ class Custom404Middleware:
                         "description": data.get("description"),
                         "image": data.get("images")[0] if data.get("images") else None,
                         "price": data.get("price"),
+                        "og_url": f"https://apps.tina-stock.com/product_detail?productId={productId}"
                     }
                     logger.debug(f"Produit formaté: {product.get('name')}")
                     logger.debug(f"Produit Image: {product.get('image')}")
