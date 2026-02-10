@@ -63,3 +63,11 @@ INFO 2026-02-10 21:29:19,852 autoreload 41424 53636 D:\me\PROJETS\PROJETS_DJANGO
 INFO 2026-02-10 21:29:21,266 autoreload 36408 22388 Watching for file changes with StatReloader
 INFO 2026-02-10 21:29:23,516 autoreload 36408 22388 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
 INFO 2026-02-10 21:29:24,486 autoreload 46824 11360 Watching for file changes with StatReloader
+INFO 2026-02-10 22:10:09,338 autoreload 46824 11360 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 22:10:11,118 autoreload 1696 51132 Watching for file changes with StatReloader
+INFO 2026-02-10 22:10:18,788 autoreload 1696 51132 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 22:10:22,895 autoreload 47856 15180 Watching for file changes with StatReloader
+INFO 2026-02-10 22:10:28,312 autoreload 47856 15180 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 22:10:30,817 autoreload 29656 43100 Watching for file changes with StatReloader
+INFO 2026-02-10 22:10:33,885 autoreload 29656 43100 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-10 22:10:37,907 autoreload 52444 31424 Watching for file changes with StatReloader

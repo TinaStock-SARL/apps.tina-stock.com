@@ -60,13 +60,14 @@ class Custom404Middleware:
                 api_response = get_product_by_product_id(productId)
                 if api_response and api_response.get("success"):
                     data = api_response.get("data")
-
+                    formatted_price = f"{data.get('price'):,} GNF"  # ça va mettre des virgules par défaut
+                    formatted_price = formatted_price.replace(",", " ")  # remplace la virgule par un espace
                     product = {
                         "id": data.get("id"),
                         "name": data.get("name"),
                         "description": data.get("description"),
                         "image": data.get("images")[0] if data.get("images") else None,
-                        "price": data.get("price"),
+                        "price": formatted_price,
                         "og_url": f"https://apps.tina-stock.com/product_detail?productId={productId}"
                     }
                 
