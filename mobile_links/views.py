@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.http import JsonResponse
+from django.shortcuts import render
 
 def assetlinks(request):
     return JsonResponse(
@@ -17,7 +18,6 @@ def assetlinks(request):
         ],
         safe=False
     )
-
 
 def apple_app_site_association(request):
     return JsonResponse({

@@ -5,6 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applications - TinaStock</title>
+    <!-- Open Graph / WhatsApp Meta Tags -->
+    {% if product %}
+        <!-- Open Graph / WhatsApp -->
+        <meta property="og:title" content="{{ product.name }} | Tina Stock">
+        <meta property="og:description" content="{{ product.description|truncatechars:180 }}">
+        <meta property="og:image" content="{{ product.image }}">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+        <meta property="og:type" content="product">
+        <meta property="og:site_name" content="Tina Stock">
+
+        <!-- Bonus pour grosse image -->
+        <meta name="twitter:card" content="summary_large_image">
+    {% else %}
+        <meta property="og:title" content="Tina Stock">
+        <meta property="og:description" content="Plateforme de gestion et vente de produits">
+    {% endif %}
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
