@@ -78,6 +78,7 @@ class Custom404Middleware:
                         "price": data.get("price"),
                     }
                     logger.debug(f"Produit formaté: {product.get('name')}")
+                    logger.debug(f"Produit Image: {product.get('image')}")
                 else:
                     logger.warning(f"Impossible de récupérer le produit {productId} depuis l'API")
             else:
