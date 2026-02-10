@@ -7,3 +7,5 @@ __pycache__
 db.sqlite3
 
 logs/
+
+logs/django.log

@@ -31,19 +31,14 @@ def get_product_by_product_id(productId):
     """
     try:
         url = f"https://api.tina-stock.com/v1/products/{productId}/detail/"
-        logger.info(f"Récupération du produit avec l'ID: {productId}")
-        logger.debug(f"URL de l'API: {url}")
         response = requests.get(url)
         logger.debug(f"Statut de la réponse API: {response.status_code}")
         if response.status_code == 200:
             data = response.json()
-            logger.info(f"Produit récupéré avec succès: {productId}")
             return data
         else:
-            logger.warning(f"Échec de la récupération du produit {productId}. Statut: {response.status_code}")
             return None
     except Exception as e:
-        logger.error(f"Erreur lors de la récupération du produit {productId}: {str(e)}", exc_info=True)
         return None
 
 class Custom404Middleware:
@@ -58,17 +53,13 @@ class Custom404Middleware:
         
         # Si la réponse est une erreur 404 ou 400, on affiche notre page personnalisée
         if response.status_code in (400, 404):
-            logger.info(f"Erreur {response.status_code} interceptée pour: {request.path}")
             # recuperer le param de la requete productId
             productId = request.GET.get('productId')
-            logger.debug(f"Paramètre productId reçu: {productId}")
             product = None
             if productId:
-                logger.info(f"Tentative de récupération du produit avec productId: {productId}")
                 api_response = get_product_by_product_id(productId)
                 if api_response and api_response.get("success"):
                     data = api_response.get("data")
-                    logger.info(f"Produit récupéré avec succès depuis l'API: {productId}")
 
                     product = {
                         "id": data.get("id"),
@@ -78,17 +69,11 @@ class Custom404Middleware:
                         "price": data.get("price"),
                         "og_url": f"https://apps.tina-stock.com/product_detail?productId={productId}"
                     }
-                    logger.debug(f"Produit formaté: {product.get('name')}")
-                    logger.debug(f"Produit Image: {product.get('image')}")
-                else:
-                    logger.warning(f"Impossible de récupérer le produit {productId} depuis l'API")
-            else:
-                logger.debug("Aucun productId fourni dans la requête")
+                
             context = {
                 "product": product,
                 "request": request,
             }
-            logger.debug(f"Rendu de la page 404.html avec produit: {'présent' if product else 'absent'}")
             return render(request, "404.html", context, status=200)
         
         return response
