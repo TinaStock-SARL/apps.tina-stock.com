@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import assetlinks, apple_app_site_association, four_oh_four_page
+from .views import assetlinks, apple_app_site_association
 
 urlpatterns = [
     path('.well-known/assetlinks.json', assetlinks),
