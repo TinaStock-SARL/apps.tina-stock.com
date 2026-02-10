@@ -60,8 +60,7 @@ class Custom404Middleware:
                 api_response = get_product_by_product_id(productId)
                 if api_response and api_response.get("success"):
                     data = api_response.get("data")
-                    formatted_price = f"{data.get('price'):,} GNF"  # ça va mettre des virgules par défaut
-                    formatted_price = formatted_price.replace(",", " ")  # remplace la virgule par un espace
+                    formatted_price = f"{int(data.get('price')):,} GNF".replace(",", " ")
                     product = {
                         "id": data.get("id"),
                         "name": data.get("name"),
