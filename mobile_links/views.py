@@ -139,6 +139,7 @@ def payment_page(request, order_id):
                 # Sinon, afficher la page HTML (pour les bots ou si pas de payment_url)
                 # Construire l'URL complète de l'image
                 image_url = request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png')
+                logger.info(image_url)
                 
                 # Construire l'URL complète de la page
                 page_url = request.build_absolute_uri(request.get_full_path())
