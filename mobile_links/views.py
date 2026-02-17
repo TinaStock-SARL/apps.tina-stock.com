@@ -1,6 +1,10 @@
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import render
+import requests
+import logging
+
+logger = logging.getLogger(__name__)
 
 def assetlinks(request):
     return JsonResponse(
@@ -44,3 +48,69 @@ def apple_app_site_association(request):
             ]
         }
     })
+
+def payment_page(request):
+    """
+    View pour afficher une page de paiement avec les meta tags Open Graph
+    Récupère l'order_id depuis request.GET et fait un appel API pour récupérer les infos
+    """
+    order_id = request.GET.get('order_id')
+    
+    if not order_id:
+        logger.warning("Aucun order_id fourni dans la requête")
+        context = {
+            'order': None,
+            'error': 'Aucun identifiant de commande fourni'
+        }
+        return render(request, 'payment.html', context)
+    
+    try:
+        url = f"https://api.tina-stock.com/orders/minimal-info/{order_id}/"
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            api_data = response.json()
+            
+            if api_data.get("success") and api_data.get("data"):
+                order_data = api_data.get("data")
+                
+                # Construire l'URL complète de l'image
+                image_url = request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png')
+                
+                # Construire l'URL complète de la page
+                page_url = request.build_absolute_uri(request.get_full_path())
+                
+                context = {
+                    'order': {
+                        'order_number': order_data.get('order_number', ''),
+                        'first_name': order_data.get('first_name', ''),
+                        'last_name': order_data.get('last_name', ''),
+                        'full_name': f"{order_data.get('first_name', '')} {order_data.get('last_name', '')}".strip(),
+                        'total_amount': order_data.get('total_amount', 0),
+                        'currency': order_data.get('currency', 'GNF'),
+                        'order_id': order_id,
+                    },
+                    'image_url': image_url,
+                    'page_url': page_url,
+                    'error': None
+                }
+                return render(request, 'payment.html', context)
+            else:
+                context = {
+                    'order': None,
+                    'error': 'Données de commande invalides'
+                }
+                return render(request, 'payment.html', context)
+        else:
+            context = {
+                'order': None,
+                'error': f'Erreur lors de la récupération des informations (Code: {response.status_code})'
+            }
+            return render(request, 'payment.html', context)
+            
+    except Exception as e:
+        context = {
+            'order': None,
+            'error': 'Une erreur est survenue lors de la récupération des informations'
+        }
+        return render(request, 'payment.html', context)
