@@ -35,6 +35,24 @@ def is_bot_or_crawler(user_agent):
     
     return any(keyword in user_agent_lower for keyword in bot_keywords)
 
+def format_amount_with_spaces(amount):
+    """
+    Formate un montant avec des espaces comme séparateurs de milliers
+    Exemple: 192000 -> "192 000"
+    """
+    try:
+        amount_int = int(float(amount))
+        amount_str = str(amount_int)
+        # Ajouter des espaces tous les 3 chiffres en partant de la fin
+        formatted = ''
+        for i, digit in enumerate(reversed(amount_str)):
+            if i > 0 and i % 3 == 0:
+                formatted = ' ' + formatted
+            formatted = digit + formatted
+        return formatted
+    except (ValueError, TypeError):
+        return str(amount)
+
 def assetlinks(request):
     return JsonResponse(
         [
@@ -125,13 +143,18 @@ def payment_page(request, order_id):
                 # Construire l'URL complète de la page
                 page_url = request.build_absolute_uri(request.get_full_path())
                 
+                # Formater le montant avec des espaces
+                total_amount = order_data.get('total_amount', 0)
+                formatted_amount = format_amount_with_spaces(total_amount)
+                
                 context = {
                     'order': {
                         'order_number': order_data.get('order_number', ''),
                         'first_name': order_data.get('first_name', ''),
                         'last_name': order_data.get('last_name', ''),
                         'full_name': f"{order_data.get('first_name', '')} {order_data.get('last_name', '')}".strip(),
-                        'total_amount': order_data.get('total_amount', 0),
+                        'total_amount': total_amount,
+                        'formatted_amount': formatted_amount,
                         'currency': order_data.get('currency', 'GNF'),
                         'order_id': order_id,
                     },

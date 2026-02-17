@@ -9,8 +9,8 @@
     <!-- Open Graph / WhatsApp Meta Tags -->
     {% if order %}
         <!-- Open Graph / WhatsApp -->
-        <meta property="og:title" content="Paiement de {{ order.full_name }} - {{ order.total_amount|floatformat:0 }} {{ order.currency }} | TinaStock">
-        <meta property="og:description" content="Commande {{ order.order_number }} - Montant: {{ order.total_amount|floatformat:0 }} {{ order.currency }}">
+        <meta property="og:title" content="Paiement de {{ order.full_name }} - {{ order.formatted_amount }} {{ order.currency }} | TinaStock">
+        <meta property="og:description" content="Commande {{ order.order_number }} - Montant: {{ order.formatted_amount }} {{ order.currency }}">
         <meta property="og:image" content="{{ image_url }}?v=2">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
@@ -21,7 +21,7 @@
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Paiement - {{ order.order_number }} - TinaStock">
-        <meta name="twitter:description" content="Commande {{ order.order_number }} - Montant: {{ order.total_amount|floatformat:0 }} {{ order.currency }}">
+        <meta name="twitter:description" content="Commande {{ order.order_number }} - Montant: {{ order.formatted_amount }} {{ order.currency }}">
         <meta name="twitter:image" content="{{ image_url }}?v=2">
     {% else %}
         <meta property="og:title" content="Paiement - TinaStock">
@@ -73,7 +73,7 @@
                         <div class="border-t border-gray-300 pt-4 mt-4">
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-600 font-semibold text-lg">Montant total:</span>
-                                <span class="text-green-600 font-bold text-2xl">{{ order.total_amount|floatformat:0 }} {{ order.currency }}</span>
+                                <span class="text-green-600 font-bold text-2xl">{{ order.formatted_amount }} {{ order.currency }}</span>
                             </div>
                         </div>
                     </div>
