@@ -100,7 +100,7 @@ def payment_page(request, order_id):
         return render(request, 'payment.html', context)
     
     try:
-        url = f"https://dev.tina-stock.com/orders/minimal-info/{order_id}/"
+        url = f"https://dev.tina-stock.com/v1/orders/minimal-info/{order_id}/"
         logger.debug(f"URL de l'API: {url}")
         response = requests.get(url)
         logger.debug(f"Statut de la réponse API: {response.status_code}")
