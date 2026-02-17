@@ -78,13 +78,12 @@ def apple_app_site_association(request):
         }
     })
 
-def payment_page(request):
+def payment_page(request, order_id):
     """
     View pour afficher une page de paiement avec les meta tags Open Graph
     - Si c'est un bot/crawler (WhatsApp, Facebook, etc.) : affiche la page HTML avec meta tags
     - Si c'est un navigateur normal : redirige vers payment_url si disponible
     """
-    order_id = request.GET.get('order_id')
     user_agent = request.META.get('HTTP_USER_AGENT', '')
     is_bot = is_bot_or_crawler(user_agent)
     
