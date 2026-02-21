@@ -102,7 +102,7 @@ def payment_page(request):
     - Si c'est un bot/crawler (WhatsApp, Facebook, etc.) : affiche la page HTML avec meta tags
     - Si c'est un navigateur normal : redirige vers payment_url si disponible
     """
-    order_id = request.GET.get('order_id')
+    order_id = request.GET.get('orderId')
     user_agent = request.META.get('HTTP_USER_AGENT', '')
     is_bot = is_bot_or_crawler(user_agent)
     
