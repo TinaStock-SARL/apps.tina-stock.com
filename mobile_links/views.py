@@ -182,3 +182,102 @@ def payment_page(request):
             'page_url': request.build_absolute_uri(request.get_full_path()),
         }
         return render(request, 'payment.html', context)
+
+
+def cart_shared_result(request):
+    """
+    View pour afficher la page du panier partagé avec les meta tags Open Graph
+    Récupère le code partagé depuis request.GET (param: code)
+    """
+    shared_code = request.GET.get('code')
+    
+    if not shared_code:
+        logger.warning("Aucun code partagé fourni dans la requête")
+        context = {
+            'cart': None,
+            'error': 'Aucun code de panier partagé fourni',
+            'image_url': request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png'),
+            'page_url': request.build_absolute_uri(request.get_full_path()),
+        }
+        return render(request, 'cart_shared_result.html', context)
+    
+    try:
+        url = f"https://api.tina-stock.com/v1/shared-cart/{shared_code}/"
+        logger.info(f"Récupération du panier partagé pour code: {shared_code}")
+        response = requests.get(url)
+        logger.debug(f"Statut de la réponse API: {response.status_code}")
+        
+        if response.status_code == 200:
+            api_data = response.json()
+            
+            if api_data.get("success") and api_data.get("data"):
+                cart_data = api_data.get("data")
+                
+                # URLs pour OG
+                page_url = request.build_absolute_uri(request.get_full_path())
+                image_url = request.build_absolute_uri(settings.MEDIA_URL + 'pay-shared-cart.png')
+                
+                # Formater les montants
+                total_amount = cart_data.get('total_amount', 0)
+                delivery = cart_data.get('delivery') or {}
+                total_delivery_fee = delivery.get('total_delivery_fee', 0) if isinstance(delivery, dict) else 0
+                grand_total = total_amount + total_delivery_fee
+                
+                # Préparer les items avec montants formatés
+                items = cart_data.get('items', [])
+                for item in items:
+                    item['formatted_price'] = format_amount_with_spaces(item.get('price', 0))
+                    item['formatted_total_price'] = format_amount_with_spaces(item.get('total_price', 0))
+                
+                context = {
+                    'cart': {
+                        'share_code': cart_data.get('share_code', ''),
+                        'shared_cart_id': cart_data.get('shared_cart_id', ''),
+                        'items': items,
+                        'total_amount': total_amount,
+                        'formatted_total_amount': format_amount_with_spaces(total_amount),
+                        'total_delivery_fee': total_delivery_fee,
+                        'formatted_total_delivery_fee': format_amount_with_spaces(total_delivery_fee),
+                        'grand_total': grand_total,
+                        'formatted_grand_total': format_amount_with_spaces(grand_total),
+                        'delivery': delivery,
+                        'expires_at': cart_data.get('expires_at'),
+                        'is_active': cart_data.get('is_active', False),
+                        'is_paid': cart_data.get('is_paid', False),
+                        'qr_code_url': cart_data.get('qr_code_url'),
+                        'currency': 'GNF',
+                    },
+                    'image_url': image_url,
+                    'page_url': page_url,
+                    'error': None,
+                }
+                logger.info(f"Panier partagé récupéré avec succès: {shared_code}")
+                return render(request, 'cart_shared_result.html', context)
+            else:
+                logger.warning(f"Réponse API invalide pour code: {shared_code}")
+                context = {
+                    'cart': None,
+                    'error': 'Panier partagé introuvable ou invalide',
+                    'image_url': request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png'),
+                    'page_url': request.build_absolute_uri(request.get_full_path()),
+                }
+                return render(request, 'cart_shared_result.html', context)
+        else:
+            logger.warning(f"Échec récupération panier partagé. Statut: {response.status_code}")
+            context = {
+                'cart': None,
+                'error': f'Impossible de charger le panier (Code: {response.status_code})',
+                'image_url': request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png'),
+                'page_url': request.build_absolute_uri(request.get_full_path()),
+            }
+            return render(request, 'cart_shared_result.html', context)
+            
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération du panier partagé {shared_code}: {str(e)}", exc_info=True)
+        context = {
+            'cart': None,
+            'error': 'Une erreur est survenue lors du chargement du panier',
+            'image_url': request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png'),
+            'page_url': request.build_absolute_uri(request.get_full_path()),
+        }
+        return render(request, 'cart_shared_result.html', context)

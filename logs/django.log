@@ -79,3 +79,18 @@ INFO 2026-02-10 22:15:39,585 autoreload 24776 32240 D:\me\PROJETS\PROJETS_DJANGO
 INFO 2026-02-10 22:15:40,269 autoreload 37324 32808 Watching for file changes with StatReloader
 INFO 2026-02-10 22:15:55,145 autoreload 37324 32808 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
 INFO 2026-02-10 22:15:56,043 autoreload 1980 46004 Watching for file changes with StatReloader
+INFO 2026-02-23 00:13:28,119 autoreload 28884 23720 Watching for file changes with StatReloader
+INFO 2026-02-23 00:13:42,000 basehttp 28884 7956 "GET / HTTP/1.1" 200 4600
+INFO 2026-02-23 00:13:46,273 basehttp 28884 7956 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 00:14:13,406 basehttp 28884 7956 "GET /customer_pages/cart/cart_shared_result HTTP/1.1" 200 1696
+INFO 2026-02-23 00:14:13,870 basehttp 28884 7956 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 00:14:44,848 basehttp 28884 7956 "GET /customer_pages/cart/cart_shared_result?code=2Q7EWY5FFW1B HTTP/1.1" 200 5456
+INFO 2026-02-23 00:14:46,704 basehttp 28884 7956 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 00:17:08,049 basehttp 28884 7956 "GET /customer_pages/cart/cart_shared_result?code=2Q7EWY5FFW1B HTTP/1.1" 200 5309
+INFO 2026-02-23 00:17:08,390 basehttp 28884 7956 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 00:31:33,357 autoreload 28884 23720 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\mobile_links\views.py changed, reloading.
+INFO 2026-02-23 00:31:34,891 autoreload 22304 20240 Watching for file changes with StatReloader
+INFO 2026-02-23 00:31:39,206 autoreload 22304 20240 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\mobile_links\views.py changed, reloading.
+INFO 2026-02-23 00:31:40,757 autoreload 26996 16772 Watching for file changes with StatReloader
+INFO 2026-02-23 00:31:45,211 autoreload 26996 16772 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\mobile_links\views.py changed, reloading.
+INFO 2026-02-23 00:31:46,729 autoreload 10492 29332 Watching for file changes with StatReloader

@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if cart %}Panier partagé {{ cart.share_code }} - {{ cart.formatted_grand_total }} GNF | TinaStock{% else %}Panier partagé - TinaStock{% endif %}</title>
+    
+    <!-- Open Graph / WhatsApp Meta Tags -->
+    {% if cart %}
+        <meta property="og:title" content="Panier partagé {{ cart.share_code }} - {{ cart.formatted_grand_total }} GNF | TinaStock">
+        <meta property="og:description" content="Panier partagé - {{ cart.items|length }} article(s) - Total: {{ cart.formatted_grand_total }} GNF">
+        <meta property="og:image" content="{{ image_url }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:url" content="{{ page_url }}">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="TinaStock">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Panier partagé {{ cart.share_code }} - TinaStock">
+        <meta name="twitter:description" content="Panier partagé - {{ cart.items|length }} article(s) - Total: {{ cart.formatted_grand_total }} GNF">
+        <meta name="twitter:image" content="{{ image_url }}">
+    {% else %}
+        <meta property="og:title" content="Panier partagé - TinaStock">
+        <meta property="og:description" content="Consultez ce panier partagé sur TinaStock">
+        <meta property="og:image" content="{{ image_url }}">
+        <meta property="og:url" content="{{ page_url }}">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="TinaStock">
+    {% endif %}
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div class="max-w-2xl mx-auto px-4 py-6">
+        {% if cart %}
+            <!-- En-tête -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">
+                            <i class="fas fa-shopping-cart text-green-500 mr-2"></i>
+                            Panier partagé
+                        </h1>
+                        <p class="text-gray-600 mt-1">Code: <span class="font-mono font-semibold">{{ cart.share_code }}</span></p>
+                    </div>
+                    {% if cart.qr_code_url %}
+                    <img src="{{ cart.qr_code_url }}" alt="QR Code" class="w-20 h-20 rounded-lg border border-gray-200">
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Articles -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 border-b border-gray-100">
+                    <h2 class="font-bold text-gray-800">{{ cart.items|length }} article(s)</h2>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    {% for item in cart.items %}
+                    <div class="p-6 flex gap-4">
+                        <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
+                            {% if item.images %}
+                            <img src="{{ item.images.0 }}" alt="{{ item.product_name }}" class="w-full h-full object-cover">
+                            {% else %}
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                <i class="fas fa-image text-2xl"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-gray-800 truncate">{{ item.product_name }}</h3>
+                            <p class="text-sm text-gray-500">{{ item.product_category }}</p>
+                            <p class="text-sm text-gray-600 mt-1">Qté: {{ item.quantity }} × {{ item.formatted_price }} GNF</p>
+                            <p class="text-green-600 font-bold mt-1">{{ item.formatted_total_price }} GNF</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Récapitulatif + Bouton -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="font-bold text-gray-800 mb-4">Récapitulatif</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Sous-total produits</span>
+                        <span>{{ cart.formatted_total_amount }} GNF</span>
+                    </div>
+                    {% if cart.total_delivery_fee %}
+                    <div class="flex justify-between text-gray-600">
+                        <span>Frais de livraison</span>
+                        <span>{{ cart.formatted_total_delivery_fee }} GNF</span>
+                    </div>
+                    {% endif %}
+                    <div class="flex justify-between text-lg font-bold text-gray-800 pt-3 border-t border-gray-200">
+                        <span>Total</span>
+                        <span class="text-green-600">{{ cart.formatted_grand_total }} GNF</span>
+                    </div>
+                </div>
+                <button type="button" class="w-full mt-4 py-2.5 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold text-sm rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-credit-card text-xs"></i>
+                    Payer la commande
+                </button>
+            </div>
+
+        {% else %}
+            <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+                <i class="fas fa-exclamation-triangle text-6xl text-amber-500 mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Erreur</h1>
+                <p class="text-gray-600">{{ error|default:"Impossible de charger le panier partagé" }}</p>
+                <p class="text-sm text-gray-500 mt-4">Vérifiez que le lien est correct ou que le panier n'a pas expiré.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
