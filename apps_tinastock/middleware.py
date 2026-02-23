@@ -24,6 +24,7 @@ def get_product_by_product_id(productId):
                 "images": [
                     "https://media.tina-stock.com/tinastock_media_access/products-files/4.png"
                 ],
+                "og_image_url": "https://media.tina-stock.com/tinastock_media_access/products-files/4.png",
                 "nombre_ventes": 0,
                 "variants": []
             }
@@ -67,7 +68,8 @@ class Custom404Middleware:
                         "description": data.get("description"),
                         "image": data.get("images")[0] if data.get("images") else None,
                         "price": formatted_price,
-                        "og_url": f"https://apps.tina-stock.com/product_detail?productId={productId}"
+                        "og_url": f"https://apps.tina-stock.com/product_detail?productId={productId}",
+                        "og_image_url": data.get("og_image_url")
                     }
                 
             context = {

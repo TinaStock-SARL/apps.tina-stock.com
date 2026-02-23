@@ -163,3 +163,12 @@ INFO 2026-02-23 01:55:16,537 basehttp 10960 20212 "GET /customer_pages/cart/cart
 INFO 2026-02-23 01:55:16,616 basehttp 10960 20212 "GET /static/countries-data.js HTTP/1.1" 304 0
 INFO 2026-02-23 01:55:17,076 basehttp 10960 20212 "GET /favicon.ico HTTP/1.1" 200 4600
 INFO 2026-02-23 01:56:04,659 basehttp 10960 20212 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 02:13:15,943 basehttp 10960 10172 "GET /pay-for-me?orderId=75941606-fccf-48d6-8156-077a23b86e80 HTTP/1.1" 200 5200
+INFO 2026-02-23 02:13:16,875 basehttp 10960 10172 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 17:16:35,743 basehttp 10960 26384 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 21:29:52,193 autoreload 10960 6796 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-23 21:29:55,259 autoreload 13356 20000 Watching for file changes with StatReloader
+INFO 2026-02-23 21:29:57,814 autoreload 13356 20000 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-23 21:29:58,796 autoreload 21656 19436 Watching for file changes with StatReloader
+INFO 2026-02-23 21:30:01,208 autoreload 21656 19436 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\middleware.py changed, reloading.
+INFO 2026-02-23 21:30:02,409 autoreload 6768 3828 Watching for file changes with StatReloader
