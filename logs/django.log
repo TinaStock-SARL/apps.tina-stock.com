@@ -111,3 +111,17 @@ INFO 2026-02-23 01:14:48,544 autoreload 22140 26092 D:\me\PROJETS\PROJETS_DJANGO
 INFO 2026-02-23 01:14:50,605 autoreload 27564 13888 Watching for file changes with StatReloader
 INFO 2026-02-23 01:14:57,270 autoreload 27564 13888 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\mobile_links\views.py changed, reloading.
 INFO 2026-02-23 01:14:58,817 autoreload 16640 22564 Watching for file changes with StatReloader
+INFO 2026-02-23 01:19:16,244 basehttp 16640 2964 "GET /pay-for-me?orderId=75941606-fccf-48d6-8156-077a23b86e80 HTTP/1.1" 200 4818
+INFO 2026-02-23 01:19:16,863 basehttp 16640 2964 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 01:19:39,421 autoreload 16640 22564 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\mobile_links\views.py changed, reloading.
+INFO 2026-02-23 01:19:40,401 autoreload 10816 19328 Watching for file changes with StatReloader
+INFO 2026-02-23 01:19:41,575 basehttp 10816 4296 "GET /pay-for-me?orderId=75941606-fccf-48d6-8156-077a23b86e80 HTTP/1.1" 200 4823
+INFO 2026-02-23 01:19:41,854 basehttp 10816 4296 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 01:19:52,531 basehttp 10816 4296 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 01:20:54,272 autoreload 10816 19328 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\mobile_links\views.py changed, reloading.
+INFO 2026-02-23 01:20:55,472 autoreload 4860 28576 Watching for file changes with StatReloader
+INFO 2026-02-23 01:20:57,544 autoreload 4860 28576 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\mobile_links\views.py changed, reloading.
+INFO 2026-02-23 01:20:58,560 autoreload 20988 12532 Watching for file changes with StatReloader
+INFO 2026-02-23 01:22:05,468 basehttp 20988 7284 "GET /pay-for-me?orderId=75941606-fccf-48d6-8156-077a23b86e80 HTTP/1.1" 200 5197
+INFO 2026-02-23 01:22:05,992 basehttp 20988 7284 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 01:23:07,557 basehttp 20988 7284 "GET /favicon.ico HTTP/1.1" 200 4600

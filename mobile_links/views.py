@@ -124,9 +124,9 @@ def payment_page(request):
                 
                 image_url = request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png')
                 page_url = request.build_absolute_uri(request.get_full_path())
+                delivery_amount = order_data.get('delivery_amount') or order_data.get('delivery_fee') or 0
                 total_amount = order_data.get('total_amount', 0)
-                delivery_amount = order_data.get('delivery_fee', 0)
-                formatted_amount = format_amount_with_spaces(total_amount)
+                subtotal_amount = order_data.get('subtotal_amount') or order_data.get('items_total') or (total_amount - delivery_amount)
                 full_name = f"{order_data.get('first_name', '')} {order_data.get('last_name', '')}".strip()
                 
                 # Formater les montants dans orders_by_location
@@ -143,9 +143,12 @@ def payment_page(request):
                         'first_name': order_data.get('first_name', ''),
                         'last_name': order_data.get('last_name', ''),
                         'full_name': full_name or 'Client',
-                        'total_amount': total_amount,
+                        'subtotal_amount': subtotal_amount,
+                        'formatted_subtotal': format_amount_with_spaces(subtotal_amount),
                         'delivery_amount': delivery_amount,
-                        'formatted_amount': formatted_amount,
+                        'formatted_delivery': format_amount_with_spaces(delivery_amount),
+                        'total_amount': total_amount,
+                        'formatted_amount': format_amount_with_spaces(total_amount),
                         'currency': order_data.get('currency', 'GNF'),
                         'payment_url': order_data.get('payment_url'),
                         'reference': order_data.get('reference', ''),
