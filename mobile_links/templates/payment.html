@@ -8,8 +8,7 @@
     
     <!-- Open Graph / WhatsApp Meta Tags -->
     {% if order %}
-        <!-- Open Graph / WhatsApp -->
-        <meta property="og:title" content="Paier pour {{ order.full_name }} - {{ order.formatted_amount }} {{ order.currency }} | TinaStock">
+        <meta property="og:title" content="Payer pour {{ order.full_name }} - {{ order.formatted_amount }} {{ order.currency }} | TinaStock">
         <meta property="og:description" content="Commande {{ order.order_number }} - Montant: {{ order.formatted_amount }} {{ order.currency }}">
         <meta property="og:image" content="{{ image_url }}?v=1">
         <meta property="og:image:width" content="1200">
@@ -18,7 +17,6 @@
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="TinaStock">
 
-        <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Paiement - {{ order.order_number }} - TinaStock">
         <meta name="twitter:description" content="Commande {{ order.order_number }} - Montant: {{ order.formatted_amount }} {{ order.currency }}">
@@ -32,89 +30,80 @@
         <meta property="og:site_name" content="TinaStock">
     {% endif %}
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-        .animate-pulse-custom {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-    </style>
 </head>
-<body class="flex justify-center items-center min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
-    <div class="text-center p-5 max-w-2xl w-full">
+<body class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+    <div class="max-w-2xl mx-auto px-4 py-6">
         {% if order %}
-            <div class="bg-white rounded-2xl shadow-2xl p-8 mb-6">
-                <div class="mb-6">
-                    <i class="fas fa-credit-card text-6xl text-green-500 mb-4"></i>
-                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Paiement de la commande</h1>
-                    <p class="text-gray-600">Commande {{ order.order_number }}</p>
+            <!-- En-tête -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-credit-card text-green-500 mr-2"></i>
+                    Paiement de la commande
+                </h1>
+                <p class="text-gray-600 mt-1">Commande {{ order.order_number }}</p>
+                <p class="text-gray-600">Client: <span class="font-semibold">{{ order.full_name }}</span></p>
+            </div>
+
+            <!-- Produits par lieu -->
+            {% for location_group in order.orders_by_location %}
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
+                    <h2 class="font-bold text-gray-800">
+                        <i class="fas fa-map-marker-alt text-green-500 mr-2"></i>
+                        {{ location_group.location_name }}
+                    </h2>
                 </div>
-                
-                <div class="bg-gray-50 rounded-xl p-6 mb-6">
-                    <div class="text-left space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600 font-semibold">Client:</span>
-                            <span class="text-gray-800 font-bold">{{ order.full_name }}</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600 font-semibold">Numéro de commande:</span>
-                            <span class="text-gray-800 font-bold">{{ order.order_number }}</span>
-                        </div>
-                        <div class="border-t border-gray-300 pt-4 mt-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600 font-semibold text-lg">Montant total:</span>
-                                <span class="text-green-600 font-bold text-2xl">{{ order.formatted_amount }} {{ order.currency }}</span>
+                <div class="divide-y divide-gray-100">
+                    {% for order_item in location_group.orders %}
+                        {% for item in order_item.items %}
+                        <div class="p-6 flex gap-4">
+                            <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
+                                {% if item.product_images %}
+                                <img src="{{ item.product_images.0 }}" alt="{{ item.product_name }}" class="w-full h-full object-cover">
+                                {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <i class="fas fa-image text-2xl"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-semibold text-gray-800">{{ item.product_name }}</h3>
+                                <p class="text-sm text-gray-500">{{ item.product_sku }}</p>
+                                <p class="text-sm text-gray-600 mt-1">Qté: {{ item.quantity }} × {{ item.formatted_unit_price }} {{ order.currency }}</p>
+                                <p class="text-green-600 font-bold mt-1">{{ item.formatted_total_price }} {{ order.currency }}</p>
                             </div>
                         </div>
-                    </div>
+                        {% endfor %}
+                    {% endfor %}
                 </div>
-                
-                {% comment %} <div class="bg-green-50 border-2 border-green-200 rounded-xl p-4">
-                    <p class="text-green-800 font-semibold">
-                        <i class="fas fa-info-circle mr-2"></i>
-                        Cette page est optimisée pour le partage sur WhatsApp et Facebook
-                    </p>
-                </div> {% endcomment %}
             </div>
-        {% else %}
-            <div class="bg-white rounded-2xl shadow-2xl p-8">
-                <div class="mb-6">
-                    <i class="fas fa-exclamation-triangle text-6xl text-yellow-500 mb-4"></i>
-                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Erreur</h1>
-                    <p class="text-gray-600">{{ error|default:"Impossible de charger les informations de la commande" }}</p>
+            {% endfor %}
+
+            <!-- Récapitulatif + Bouton Payer -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex justify-between items-center text-lg font-bold text-gray-800 mb-4">
+                    <span>Total</span>
+                    <span class="text-green-600">{{ order.formatted_amount }} {{ order.currency }}</span>
                 </div>
+                {% if order.payment_url %}
+                <a href="{{ order.payment_url }}" class="w-full py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-credit-card"></i>
+                    Payer pour {{ order.full_name }}
+                </a>
+                {% else %}
+                <p class="text-amber-600 text-sm">URL de paiement non disponible.</p>
+                {% endif %}
+            </div>
+
+        {% else %}
+            <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+                <i class="fas fa-exclamation-triangle text-6xl text-amber-500 mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">Erreur</h1>
+                <p class="text-gray-600">{{ error|default:"Impossible de charger les informations de la commande" }}</p>
             </div>
         {% endif %}
-        
-        <!-- Boutons d'action -->
-        <div class="flex flex-col gap-4 mt-6">
-            <a href="https://play.google.com/store/apps/details?id=gn.kinnovate.tinastock_client" target="_blank" class="bg-gray-50 border-2 border-gray-300 rounded-xl p-6 flex items-center justify-center gap-4 transition-all duration-300 hover:border-green-500 hover:shadow-lg hover:scale-105">
-                <i class="fab fa-android text-4xl text-green-500"></i>
-                <div class="text-left">
-                    <div class="text-lg font-bold text-gray-600">Télécharger l'app Android</div>
-                    <div class="text-sm text-gray-500">Pour effectuer le paiement</div>
-                </div>
-            </a>
-            
-            <a href="https://apps.apple.com/us/app/tinastock/id6757655762" target="_blank" rel="noopener noreferrer" class="bg-white border-2 border-gray-300 rounded-xl p-6 flex items-center justify-center gap-4 transition-all duration-300 hover:border-blue-500 hover:shadow-lg hover:scale-105">
-                <i class="fab fa-apple text-4xl text-gray-900"></i>
-                <div class="text-left">
-                    <div class="text-lg font-bold text-gray-800">Télécharger l'app iOS</div>
-                    <div class="text-sm text-gray-600">Pour effectuer le paiement</div>
-                </div>
-            </a>
-        </div>
     </div>
 </body>
 </html>
-

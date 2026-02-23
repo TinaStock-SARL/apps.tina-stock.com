@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render
 import requests
 import logging
@@ -98,13 +98,10 @@ def apple_app_site_association(request):
 
 def payment_page(request):
     """
-    View pour afficher une page de paiement avec les meta tags Open Graph
-    - Si c'est un bot/crawler (WhatsApp, Facebook, etc.) : affiche la page HTML avec meta tags
-    - Si c'est un navigateur normal : redirige vers payment_url si disponible
+    View pour afficher la page de paiement avec les informations de commande et les produits.
+    Affiche les produits groupés par lieu, puis un bouton "Payer pour [Nom]" qui redirige vers payment_url.
     """
     order_id = request.GET.get('orderId')
-    user_agent = request.META.get('HTTP_USER_AGENT', '')
-    is_bot = is_bot_or_crawler(user_agent)
     
     if not order_id:
         context = {
@@ -116,7 +113,7 @@ def payment_page(request):
         return render(request, 'payment.html', context)
     
     try:
-        url = f"https://dev.tina-stock.com/v1/orders/minimal-info/{order_id}/"
+        url = f"https://api.tina-stock.com/v1/orders/minimal-info/{order_id}/"
         response = requests.get(url)
         
         if response.status_code == 200:
@@ -124,33 +121,33 @@ def payment_page(request):
             
             if api_data.get("success") and api_data.get("data"):
                 order_data = api_data.get("data")
-                payment_url = order_data.get('payment_url')
                 
-                # Si c'est un navigateur normal (pas un bot) ET qu'on a un payment_url, rediriger
-                if not is_bot and payment_url:
-                    return HttpResponseRedirect(payment_url)
-                
-                # Sinon, afficher la page HTML (pour les bots ou si pas de payment_url)
-                # Construire l'URL complète de l'image
                 image_url = request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png')
-                
-                # Construire l'URL complète de la page
                 page_url = request.build_absolute_uri(request.get_full_path())
-                
-                # Formater le montant avec des espaces
                 total_amount = order_data.get('total_amount', 0)
                 formatted_amount = format_amount_with_spaces(total_amount)
+                full_name = f"{order_data.get('first_name', '')} {order_data.get('last_name', '')}".strip()
+                
+                # Formater les montants dans orders_by_location
+                orders_by_location = order_data.get('orders_by_location', [])
+                for loc in orders_by_location:
+                    for order in loc.get('orders', []):
+                        for item in order.get('items', []):
+                            item['formatted_unit_price'] = format_amount_with_spaces(item.get('unit_price', 0))
+                            item['formatted_total_price'] = format_amount_with_spaces(item.get('total_price', 0))
                 
                 context = {
                     'order': {
                         'order_number': order_data.get('order_number', ''),
                         'first_name': order_data.get('first_name', ''),
                         'last_name': order_data.get('last_name', ''),
-                        'full_name': f"{order_data.get('first_name', '')} {order_data.get('last_name', '')}".strip(),
+                        'full_name': full_name or 'Client',
                         'total_amount': total_amount,
                         'formatted_amount': formatted_amount,
                         'currency': order_data.get('currency', 'GNF'),
-                        'order_id': order_id,
+                        'payment_url': order_data.get('payment_url'),
+                        'reference': order_data.get('reference', ''),
+                        'orders_by_location': orders_by_location,
                     },
                     'image_url': image_url,
                     'page_url': page_url,
