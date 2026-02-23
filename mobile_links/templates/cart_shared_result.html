@@ -44,7 +44,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">
-                            <i class="fas fa-shopping-cart text-green-500 mr-2"></i>
+                            <i class="fas fa-shopping-cart text-[#2c5282] mr-2"></i>
                             Panier partagé
                         </h1>
                         <p class="text-gray-600 mt-1">Code: <span class="font-mono font-semibold">{{ cart.share_code }}</span></p>
@@ -76,7 +76,7 @@
                             <h3 class="font-semibold text-gray-800 truncate">{{ item.product_name }}</h3>
                             <p class="text-sm text-gray-500">{{ item.product_category }}</p>
                             <p class="text-sm text-gray-600 mt-1">Qté: {{ item.quantity }} × {{ item.formatted_price }} GNF</p>
-                            <p class="text-green-600 font-bold mt-1">{{ item.formatted_total_price }} GNF</p>
+                            <p class="text-[#2c5282] font-bold mt-1">{{ item.formatted_total_price }} GNF</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -99,10 +99,10 @@
                     {% endif %}
                     <div class="flex justify-between text-lg font-bold text-gray-800 pt-3 border-t border-gray-200">
                         <span>Total</span>
-                        <span class="text-green-600">{{ cart.formatted_grand_total }} GNF</span>
+                        <span class="text-[#2c5282]">{{ cart.formatted_grand_total }} GNF</span>
                     </div>
                 </div>
-                <button type="button" id="btn-payer" class="w-full mt-4 py-2.5 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold text-sm rounded-lg transition-colors flex items-center justify-center gap-2">
+                <button type="button" id="btn-payer" class="w-full mt-4 py-2.5 px-4 bg-[#2c5282] hover:bg-[#234a73] text-white font-semibold text-sm rounded-lg transition-colors flex items-center justify-center gap-2">
                     <i class="fas fa-credit-card text-xs"></i>
                     Payer la commande
                 </button>
@@ -125,45 +125,45 @@
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Prénom *</label>
                                         <input type="text" name="first_name" required placeholder="Jean"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c5282] focus:border-transparent">
                                         <p id="err-first_name" class="text-red-500 text-xs mt-1 hidden"></p>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
                                         <input type="text" name="last_name" required placeholder="Dupont"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c5282] focus:border-transparent">
                                         <p id="err-last_name" class="text-red-500 text-xs mt-1 hidden"></p>
                                     </div>
                                 </div>
-                                <div class="flex gap-2">
-                                    <div class="w-36">
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Pays</label>
-                                        <select id="country-select" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white">
-                                            <!-- Options chargées dynamiquement depuis static/countries-data.js -->
-                                        </select>
-                                    </div>
-                                    <div class="flex-1">
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
+                                    <div class="flex gap-2 items-stretch">
+                                        <div class="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 min-w-[4.5rem]">
+                                            <img id="country-flag" src="https://flagcdn.com/w40/gn.png" alt="" class="w-6 h-4 object-cover rounded flex-shrink-0" loading="lazy">
+                                            <select id="country-select" class="bg-transparent border-none p-0 text-sm font-medium text-gray-700 focus:ring-0 focus:outline-none cursor-pointer flex-1 min-w-0">
+                                                <!-- Options chargées dynamiquement -->
+                                            </select>
+                                        </div>
                                         <input type="tel" id="phone_number" name="phone_number" required placeholder="621-82-20-65" maxlength="15"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                        <p id="err-phone_number" class="text-red-500 text-xs mt-1 hidden"></p>
+                                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c5282] focus:border-transparent">
                                     </div>
+                                    <p id="err-phone_number" class="text-red-500 text-xs mt-1 hidden"></p>
                                 </div>
                                 <input type="hidden" name="phone_code" id="phone_code" value="224">
                                 <input type="hidden" name="country_code" id="country_code" value="GN">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-gray-500">(optionnel)</span></label>
                                     <input type="email" name="email" placeholder="jean@example.com"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c5282] focus:border-transparent">
                                     <p id="err-email" class="text-red-500 text-xs mt-1 hidden"></p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Notes de livraison <span class="text-gray-500">(optionnel)</span></label>
                                     <textarea name="notes" rows="2" placeholder="Livrer entre 10h et 12h"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"></textarea>
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2c5282] focus:border-transparent resize-none"></textarea>
                                 </div>
                                 <input type="hidden" name="delivery_mode" value="standard">
-                                <button type="submit" id="btn-submit" class="w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <button type="submit" id="btn-submit" class="w-full py-3 bg-[#2c5282] hover:bg-[#234a73] text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                                     <i class="fas fa-spinner fa-spin hidden" id="submit-spinner"></i>
                                     <i class="fas fa-credit-card" id="submit-icon"></i>
                                     Valider et payer
@@ -193,6 +193,7 @@
 
             var countries = window.COUNTRIES || [];
             var countrySelect = document.getElementById('country-select');
+            var countryFlag = document.getElementById('country-flag');
             countries.forEach(function(c) {
                 var opt = document.createElement('option');
                 opt.value = c.iso2;
@@ -252,7 +253,8 @@
                 var data = getCountryData();
                 phoneCodeInput.value = data.code;
                 countryCodeInput.value = data.iso2;
-                var sampleLen = data.format.replace(/\D/g, '').length;
+                if (countryFlag) countryFlag.src = 'https://flagcdn.com/w40/' + (data.iso2 || 'gn').toLowerCase() + '.png';
+                var sampleLen = (data.format || '').replace(/\D/g, '').length || 9;
                 phoneInput.placeholder = formatPhone('621800000'.slice(0, sampleLen), data.format);
                 var digits = phoneInput.value.replace(/\D/g, '');
                 phoneInput.value = formatPhone(digits, data.format);
