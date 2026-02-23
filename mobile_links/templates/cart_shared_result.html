@@ -32,6 +32,9 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% if cart %}
+    <script src="{% static 'countries-data.js' %}"></script>
+    {% endif %}
 </head>
 <body class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
     <div class="max-w-2xl mx-auto px-4 py-6">
@@ -133,18 +136,21 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <div class="w-20">
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Indicatif</label>
-                                        <input type="text" name="phone_code" value="224" placeholder="224"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                    <div class="w-36">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Pays</label>
+                                        <select id="country-select" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white">
+                                            <!-- Options chargées dynamiquement depuis static/countries-data.js -->
+                                        </select>
                                     </div>
                                     <div class="flex-1">
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
-                                        <input type="tel" name="phone_number" required placeholder="611359523"
+                                        <input type="tel" id="phone_number" name="phone_number" required placeholder="621-82-20-65" maxlength="15"
                                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                                         <p id="err-phone_number" class="text-red-500 text-xs mt-1 hidden"></p>
                                     </div>
                                 </div>
+                                <input type="hidden" name="phone_code" id="phone_code" value="224">
+                                <input type="hidden" name="country_code" id="country_code" value="GN">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-gray-500">(optionnel)</span></label>
                                     <input type="email" name="email" placeholder="jean@example.com"
@@ -156,7 +162,6 @@
                                     <textarea name="notes" rows="2" placeholder="Livrer entre 10h et 12h"
                                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"></textarea>
                                 </div>
-                                <input type="hidden" name="country_code" value="GN">
                                 <input type="hidden" name="delivery_mode" value="standard">
                                 <button type="submit" id="btn-submit" class="w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                                     <i class="fas fa-spinner fa-spin hidden" id="submit-spinner"></i>
@@ -186,6 +191,21 @@
             var shareCode = '{{ cart.share_code }}';
             var apiUrl = 'https://api.tina-stock.com/v1/shared-cart/' + shareCode + '/create-order/';
 
+            var countries = window.COUNTRIES || [];
+            var countrySelect = document.getElementById('country-select');
+            countries.forEach(function(c) {
+                var opt = document.createElement('option');
+                opt.value = c.iso2;
+                opt.setAttribute('data-code', c.countryCode);
+                opt.setAttribute('data-format', c.phoneFormat || 'XXXXXXXXXX');
+                opt.setAttribute('data-min', c.minLengthPhone);
+                opt.setAttribute('data-max', c.maxLengthPhone);
+                opt.textContent = c.name + ' ' + c.countryCode;
+                countrySelect.appendChild(opt);
+            });
+            var guinea = countries.find(function(c) { return c.iso2 === 'GN'; });
+            if (guinea) countrySelect.value = 'GN';
+
             var modal = document.getElementById('payment-modal');
             var btnPayer = document.getElementById('btn-payer');
             var btnClose = document.getElementById('modal-close');
@@ -198,6 +218,62 @@
 
             function showModal() { modal.classList.remove('hidden'); }
             function hideModal() { modal.classList.add('hidden'); }
+
+            var countrySelect = document.getElementById('country-select');
+            var phoneInput = document.getElementById('phone_number');
+            var phoneCodeInput = document.getElementById('phone_code');
+            var countryCodeInput = document.getElementById('country_code');
+
+            function getCountryData() {
+                var opt = countrySelect.options[countrySelect.selectedIndex];
+                return {
+                    code: opt.getAttribute('data-code'),
+                    format: opt.getAttribute('data-format') || 'XXXXXXXXX',
+                    iso2: opt.value
+                };
+            }
+
+            function formatPhone(value, format) {
+                var digits = value.replace(/\D/g, '');
+                if (!format) return digits;
+                var result = '';
+                var d = 0;
+                for (var i = 0; i < format.length && d < digits.length; i++) {
+                    if (format[i] === 'X') {
+                        result += digits[d++];
+                    } else {
+                        result += format[i];
+                    }
+                }
+                return result;
+            }
+
+            function onCountryChange() {
+                var data = getCountryData();
+                phoneCodeInput.value = data.code;
+                countryCodeInput.value = data.iso2;
+                var sampleLen = data.format.replace(/\D/g, '').length;
+                phoneInput.placeholder = formatPhone('621800000'.slice(0, sampleLen), data.format);
+                var digits = phoneInput.value.replace(/\D/g, '');
+                phoneInput.value = formatPhone(digits, data.format);
+            }
+
+            countrySelect.addEventListener('change', onCountryChange);
+            onCountryChange();
+
+            phoneInput.addEventListener('input', function() {
+                var data = getCountryData();
+                var digits = this.value.replace(/\D/g, '');
+                this.value = formatPhone(digits, data.format);
+            });
+
+            phoneInput.addEventListener('paste', function(e) {
+                e.preventDefault();
+                var pasted = (e.clipboardData || window.clipboardData).getData('text');
+                var data = getCountryData();
+                var digits = pasted.replace(/\D/g, '');
+                this.value = formatPhone(digits, data.format);
+            });
 
             btnPayer.addEventListener('click', showModal);
             btnClose.addEventListener('click', hideModal);
@@ -217,10 +293,11 @@
                 submitIcon.classList.add('hidden');
 
                 var formData = new FormData(form);
+                var phoneRaw = (formData.get('phone_number') || '').replace(/\D/g, '');
                 var body = {
                     first_name: formData.get('first_name'),
                     last_name: formData.get('last_name'),
-                    phone_number: formData.get('phone_number'),
+                    phone_number: phoneRaw,
                     phone_code: formData.get('phone_code') || '224',
                     country_code: formData.get('country_code') || 'GN',
                     delivery_mode: formData.get('delivery_mode') || 'standard',

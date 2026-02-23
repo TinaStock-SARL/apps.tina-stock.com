@@ -125,3 +125,14 @@ INFO 2026-02-23 01:20:58,560 autoreload 20988 12532 Watching for file changes wi
 INFO 2026-02-23 01:22:05,468 basehttp 20988 7284 "GET /pay-for-me?orderId=75941606-fccf-48d6-8156-077a23b86e80 HTTP/1.1" 200 5197
 INFO 2026-02-23 01:22:05,992 basehttp 20988 7284 "GET /favicon.ico HTTP/1.1" 200 4600
 INFO 2026-02-23 01:23:07,557 basehttp 20988 7284 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 01:36:55,431 autoreload 20988 12532 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\settings.py changed, reloading.
+INFO 2026-02-23 01:36:56,605 autoreload 10724 6316 Watching for file changes with StatReloader
+INFO 2026-02-23 01:36:58,516 autoreload 10724 6316 D:\me\PROJETS\PROJETS_DJANGO\apps.tina-stock.com\apps_tinastock\settings.py changed, reloading.
+INFO 2026-02-23 01:36:59,986 autoreload 3604 18228 Watching for file changes with StatReloader
+INFO 2026-02-23 01:40:31,602 basehttp 3604 14052 "GET /customer_pages/cart/cart_shared_result?code=2Q7EWY5FFW1B HTTP/1.1" 200 18457
+INFO 2026-02-23 01:40:31,778 basehttp 3604 29220 "GET /static/countries-data.js HTTP/1.1" 200 33067
+INFO 2026-02-23 01:40:32,579 basehttp 3604 29220 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 01:41:42,958 basehttp 3604 29220 "GET /customer_pages/cart/cart_shared_result?code=2Q7EWY5FFW1B HTTP/1.1" 200 18456
+INFO 2026-02-23 01:41:43,031 basehttp 3604 29220 "GET /static/countries-data.js HTTP/1.1" 304 0
+INFO 2026-02-23 01:41:43,471 basehttp 3604 29220 "GET /favicon.ico HTTP/1.1" 200 4600
+INFO 2026-02-23 01:41:44,883 basehttp 3604 29220 "GET /favicon.ico HTTP/1.1" 200 4600
