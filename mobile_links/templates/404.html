@@ -4,110 +4,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Applications - TinaStock</title>
+    <title>{% if product %}{{ product.name }} - {{ product.formatted_price }} GNF | TinaStock{% else %}Applications - TinaStock{% endif %}</title>
     <!-- Open Graph / WhatsApp Meta Tags -->
     {% if product %}
-        <!-- Open Graph / WhatsApp -->
-        <meta property="og:title" content="{{ product.name }} - {{ product.price }} | TinaStock">
+        <meta property="og:title" content="{{ product.name }} - {{ product.formatted_price }} GNF | TinaStock">
         <meta property="og:description" content="{{ product.description|truncatechars:180 }}">
-        <meta property="og:image" content="{{ product.og_image_url }}?v=2">
+        <meta property="og:image" content="{{ product.og_image_url|default:product.image }}?v=2">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
         <meta property="og:url" content="{{ product.og_url }}">
         <meta property="og:type" content="product">
         <meta property="og:site_name" content="TinaStock">
-
-        <!-- Bonus pour grosse image -->
         <meta name="twitter:card" content="summary_large_image">
     {% else %}
         <meta property="og:title" content="TinaStock">
         <meta property="og:description" content="Plateforme de gestion et vente de produits">
     {% endif %}
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        .animate-bounce-custom {
-            animation: bounce 2s infinite;
-        }
-        @keyframes arrow-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        .arrow-float {
-            animation: arrow-float 1.2s ease-in-out infinite;
-        }
-        .arrow-hint {
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .arrow-hint.visible {
-            opacity: 1;
-        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-bounce-custom { animation: bounce 2s infinite; }
+        @keyframes arrow-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .arrow-float { animation: arrow-float 1.2s ease-in-out infinite; }
+        .arrow-hint { opacity: 0; transition: opacity 0.4s ease; }
+        .arrow-hint.visible { opacity: 1; }
     </style>
 </head>
-<body class="flex justify-center items-center min-h-screen bg-gray-100 relative">
-    <!-- Flèche "Cliquer ici" en haut à droite (apparaît après 2s) -->
+<body class="min-h-screen bg-gradient-to-br from-[#2c5282]/5 to-blue-50">
     <div id="arrow-hint" class="arrow-hint fixed top-4 right-4 z-50 flex flex-col items-center gap-1 text-gray-600 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg px-4 py-3 border border-gray-200">
-        <i class="fas fa-arrow-up arrow-float text-xl text-gray-500"></i>
+        <i class="fas fa-arrow-up arrow-float text-xl text-[#2c5282]"></i>
         <span class="text-xs font-semibold whitespace-nowrap">Cliquer ici !</span>
     </div>
-    <div class="text-center p-5 max-w-2xl w-full">
-        <div class="flex flex-col gap-5 mt-8">
-            <!-- Bloc Android -->
-            <a href="https://play.google.com/store/apps/details?id=gn.kinnovate.tinastock_client" target="_blank" class="bg-gray-50 border-2 border-gray-300 rounded-xl p-8 flex items-center justify-center gap-4 transition-all duration-300 flex-col md:flex-row hover:border-green-500 hover:shadow-lg hover:scale-105">
-                <div class="flex-shrink-0">
-                    <i class="fab fa-android text-6xl text-green-500"></i>
+
+    <div class="max-w-2xl mx-auto px-4 py-6">
+        {% if product %}
+        <!-- Carte Produit -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+            {% if product.image %}
+            <div class="aspect-square bg-gray-100">
+                <img src="{{ product.image }}" alt="{{ product.name }}" class="w-full h-full object-contain p-4">
+            </div>
+            {% endif %}
+            <div class="p-6">
+                <span class="text-xs font-medium text-[#2c5282] uppercase tracking-wide">{{ product.category }}</span>
+                <h1 class="text-2xl font-bold text-gray-800 mt-1">{{ product.name }}</h1>
+                <div class="flex items-center gap-3 mt-2">
+                    {% if product.formatted_promo_price %}
+                    <span class="text-xl font-bold text-[#2c5282]">{{ product.formatted_promo_price }} GNF</span>
+                    <span class="text-sm text-gray-400 line-through">{{ product.formatted_price }} GNF</span>
+                    {% else %}
+                    <span class="text-xl font-bold text-[#2c5282]">{{ product.formatted_price }} GNF</span>
+                    {% endif %}
                 </div>
-                <div class="text-left md:text-left text-center">
-                    <div class="text-xl font-bold text-gray-600 mb-1">
+                {% if product.description %}
+                <p class="text-gray-600 text-sm mt-4 leading-relaxed line-clamp-4">{{ product.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if product.variants %}
+        <!-- Variantes (produits variables) -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <h2 class="font-bold text-gray-800">
+                    <i class="fas fa-layer-group text-[#2c5282] mr-2"></i>
+                    Variantes disponibles
+                </h2>
+            </div>
+            <div class="p-4 grid gap-3">
+                {% for variant in product.variants %}
+                <div class="flex gap-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                    {% if variant.images %}
+                    <img src="{{ variant.images.0 }}" alt="{{ variant.combination_name }}" class="w-20 h-20 rounded-lg object-cover flex-shrink-0 bg-white">
+                    {% else %}
+                    <div class="w-20 h-20 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-image text-gray-400 text-2xl"></i>
+                    </div>
+                    {% endif %}
+                    <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-gray-800 truncate">{{ variant.combination_name }}</p>
+                        <p class="text-xs text-gray-500 font-mono mt-0.5">{{ variant.sku }}</p>
+                        {% if variant.attributes %}
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            {% for attr in variant.attributes %}
+                            <span class="inline-block px-2 py-0.5 rounded-full text-xs bg-[#2c5282]/10 text-[#2c5282]">{{ attr.attribute_value_name }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <p class="text-[#2c5282] font-bold mt-2">{{ variant.formatted_price }} GNF</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- Liens de téléchargement des applications -->
+        <div class="space-y-4">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">
+                <i class="fas fa-download text-[#2c5282] mr-2"></i>
+                Télécharger l'application
+            </h2>
+            <a href="https://play.google.com/store/apps/details?id=gn.kinnovate.tinastock_client" target="_blank" class="block bg-gray-50 border-2 border-gray-300 rounded-xl p-6 flex items-center gap-4 transition-all duration-300 hover:border-[#2c5282] hover:shadow-lg hover:scale-[1.02]">
+                <i class="fab fa-android text-5xl text-[#2c5282]"></i>
+                <div class="text-left flex-1">
+                    <div class="text-lg font-bold text-gray-800 mb-1">
                         Télécharger sur Android
-                        <span class="inline-block bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold ml-2">
-                            Disponible
-                        </span>
+                        <span class="inline-block bg-[#2c5282] text-white px-3 py-1 rounded-full text-xs font-bold ml-2">Disponible</span>
                     </div>
-                    <div class="text-sm text-gray-500">
-                        Cliquez pour télécharger l'APK
-                    </div>
+                    <p class="text-sm text-gray-500">Cliquez pour télécharger sur le Play Store</p>
                 </div>
             </a>
-            
-            <!-- Bloc iOS -->
-            <a href="https://apps.apple.com/us/app/tinastock/id6757655762" target="_blank" rel="noopener noreferrer" class="bg-white border-2 border-gray-300 rounded-xl p-8 flex items-center justify-center gap-4 cursor-pointer transition-all duration-300 flex-col md:flex-row hover:border-blue-500 hover:shadow-lg hover:scale-105">
-                <div class="flex-shrink-0">
-                    <i class="fab fa-apple text-6xl text-gray-900"></i>
-                </div>
-                <div class="text-left md:text-left text-center">
-                    <div class="text-xl font-bold text-gray-800 mb-1">
+            <a href="https://apps.apple.com/us/app/tinastock/id6757655762" target="_blank" rel="noopener noreferrer" class="block bg-white border-2 border-gray-300 rounded-xl p-6 flex items-center gap-4 transition-all duration-300 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02]">
+                <i class="fab fa-apple text-5xl text-gray-900"></i>
+                <div class="text-left flex-1">
+                    <div class="text-lg font-bold text-gray-800 mb-1">
                         Télécharger sur iOS
-                        <span class="inline-block bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold ml-2">
-                            Disponible
-                        </span>
+                        <span class="inline-block bg-[#2c5282] text-white px-3 py-1 rounded-full text-xs font-bold ml-2">Disponible</span>
                     </div>
-                    <div class="text-sm text-gray-600">
-                        Disponible sur l'App Store
-                    </div>
+                    <p class="text-sm text-gray-600">Disponible sur l'App Store</p>
                 </div>
             </a>
         </div>
     </div>
+
     <script>
         (function() {
             var hint = document.getElementById('arrow-hint');
-            if (hint) {
-                setTimeout(function() {
-                    hint.classList.add('visible');
-                }, 1000);
-            }
+            if (hint) setTimeout(function() { hint.classList.add('visible'); }, 1000);
         })();
     </script>
 </body>

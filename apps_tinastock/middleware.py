@@ -4,6 +4,20 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def format_amount_with_spaces(amount):
+    """Formate un montant avec des espaces comme séparateurs de milliers"""
+    try:
+        amount_int = int(float(amount))
+        amount_str = str(amount_int)
+        formatted = ''
+        for i, digit in enumerate(reversed(amount_str)):
+            if i > 0 and i % 3 == 0:
+                formatted = ' ' + formatted
+            formatted = digit + formatted
+        return formatted
+    except (ValueError, TypeError):
+        return str(amount)
+
 def get_product_by_product_id(productId):
     """
     Récupère les détails d'un produit par son ID
@@ -61,15 +75,29 @@ class Custom404Middleware:
                 api_response = get_product_by_product_id(productId)
                 if api_response and api_response.get("success"):
                     data = api_response.get("data")
-                    formatted_price = f"{int(data.get('price')):,} GNF".replace(",", " ")
+                    price_val = data.get("price") or 0
+                    promo_val = data.get("promo_price")
+                    images = data.get("images") or []
+                    variants = data.get("variants") or []
+                    for v in variants:
+                        v["formatted_price"] = format_amount_with_spaces(v.get("price", 0))
+                        v["formatted_promo_price"] = format_amount_with_spaces(v.get("promo_price")) if v.get("promo_price") else None
                     product = {
                         "id": data.get("id"),
                         "name": data.get("name"),
                         "description": data.get("description"),
-                        "image": data.get("images")[0] if data.get("images") else None,
-                        "price": formatted_price,
+                        "category": data.get("category"),
+                        "type": data.get("type", "simple"),
+                        "image": images[0] if images else None,
+                        "images": images,
+                        "price": price_val,
+                        "formatted_price": format_amount_with_spaces(price_val),
+                        "promo_price": promo_val,
+                        "formatted_promo_price": format_amount_with_spaces(promo_val) if promo_val else None,
                         "og_url": f"https://apps.tina-stock.com/product_detail?productId={productId}",
-                        "og_image_url": data.get("og_image_url")
+                        "og_image_url": data.get("og_image_url") or (images[0] if images else None),
+                        "nombre_ventes": data.get("nombre_ventes", 0),
+                        "variants": variants,
                     }
                 
             context = {
