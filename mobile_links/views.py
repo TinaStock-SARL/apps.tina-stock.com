@@ -106,10 +106,7 @@ def payment_page(request):
     user_agent = request.META.get('HTTP_USER_AGENT', '')
     is_bot = is_bot_or_crawler(user_agent)
     
-    logger.info(f"Requête payment_page - order_id: {order_id}, is_bot: {is_bot}, user_agent: {user_agent[:100]}")
-    
     if not order_id:
-        logger.warning("Aucun order_id fourni dans la requête")
         context = {
             'order': None,
             'error': 'Aucun identifiant de commande fourni',
@@ -120,13 +117,10 @@ def payment_page(request):
     
     try:
         url = f"https://dev.tina-stock.com/v1/orders/minimal-info/{order_id}/"
-        logger.debug(f"URL de l'API: {url}")
         response = requests.get(url)
-        logger.debug(f"Statut de la réponse API: {response.status_code}")
         
         if response.status_code == 200:
             api_data = response.json()
-            logger.info(f"Informations de commande récupérées avec succès pour order_id: {order_id}")
             
             if api_data.get("success") and api_data.get("data"):
                 order_data = api_data.get("data")
@@ -134,13 +128,11 @@ def payment_page(request):
                 
                 # Si c'est un navigateur normal (pas un bot) ET qu'on a un payment_url, rediriger
                 if not is_bot and payment_url:
-                    logger.info(f"Redirection vers payment_url pour order_id: {order_id} (navigateur normal)")
                     return HttpResponseRedirect(payment_url)
                 
                 # Sinon, afficher la page HTML (pour les bots ou si pas de payment_url)
                 # Construire l'URL complète de l'image
                 image_url = request.build_absolute_uri(settings.MEDIA_URL + 'pay-for-me.png')
-                logger.info(image_url)
                 
                 # Construire l'URL complète de la page
                 page_url = request.build_absolute_uri(request.get_full_path())
@@ -164,10 +156,8 @@ def payment_page(request):
                     'page_url': page_url,
                     'error': None
                 }
-                logger.debug(f"Affichage de la page HTML pour order_id: {order_id} (is_bot: {is_bot}, payment_url: {payment_url})")
                 return render(request, 'payment.html', context)
             else:
-                logger.warning(f"La réponse API ne contient pas de données valides pour order_id: {order_id}")
                 context = {
                     'order': None,
                     'error': 'Données de commande invalides',
@@ -176,7 +166,6 @@ def payment_page(request):
                 }
                 return render(request, 'payment.html', context)
         else:
-            logger.warning(f"Échec de la récupération des informations. Statut: {response.status_code}")
             context = {
                 'order': None,
                 'error': f'Erreur lors de la récupération des informations (Code: {response.status_code})',
@@ -186,7 +175,6 @@ def payment_page(request):
             return render(request, 'payment.html', context)
             
     except Exception as e:
-        logger.error(f"Erreur lors de la récupération des informations de commande {order_id}: {str(e)}", exc_info=True)
         context = {
             'order': None,
             'error': 'Une erreur est survenue lors de la récupération des informations',
