@@ -45,7 +45,7 @@ def get_product_by_product_id(productId):
         }
     """
     try:
-        url = f"https://api.tina-stock.com/v1/products/{productId}/detail/"
+        url = f"https://api.tina-stock.com/v2/products/{productId}/detail/"
         response = requests.get(url)
         logger.debug(f"Statut de la réponse API: {response.status_code}")
         if response.status_code == 200:
